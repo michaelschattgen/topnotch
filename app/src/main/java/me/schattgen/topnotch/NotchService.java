@@ -13,17 +13,20 @@ import android.view.WindowManager;
 
 public class NotchService extends Service {
 
+    private DpiHelper dpiHelper;
     private WindowManager windowManager;
     private View notchView;
 
-    final double widthParam = 2;
-    final double heightParam = 0.24;
+    final double widthParam = 2.6;
+    final double heightParam = 0.315;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        dpiHelper = new DpiHelper(windowManager);
+
         addNotchView();
     }
 
@@ -38,15 +41,15 @@ public class NotchService extends Service {
 
         notchView = View.inflate(getApplicationContext(), R.layout.notch, null);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                (int)(widthParam*700),
-                (int)(heightParam*700),
+                (int)(widthParam* dpiHelper.getDefaultXPPI()),
+                (int)(heightParam* dpiHelper.getDefaultYPPI()),
                 overlayType,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                         WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
                         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.CENTER | Gravity.TOP;
+        params.gravity =  Gravity.TOP | Gravity.START | Gravity.END;
         windowManager.addView(notchView, params);
     }
 
