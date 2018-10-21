@@ -12,6 +12,29 @@
     android:paddingRight="14dp"
     tools:layout_editor_absoluteY="25dp">
 
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/btnCheckPermission"
+        android:layout_width="326dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#1e88e5"
+        fancy:fb_focusColor="#01579b"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="5dp"
+        fancy:fb_text="Check Permission Status"
+        fancy:fb_textColor="#FFFFFF" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -45,7 +68,7 @@
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:lineSpacingExtra="8sp"
-        android:text="Get"
+        android:text="Give overlay permission"
         android:textAlignment="center"
         android:textColor="#303030"
         android:textSize="14sp"
@@ -76,7 +99,7 @@
         android:layout_height="23dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="80dp"
         android:text="Enable grayscale  "
         android:textColor="#7e7e7e"
         app:layout_constraintBottom_toBottomOf="parent"
