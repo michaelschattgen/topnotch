@@ -1,12 +1,17 @@
 package me.schattgen.topnotch;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.BLACK);
 
         if (!hasPermission())
         {
@@ -27,13 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        button = findViewById(R.id.buttonNotch);
+       /* button = findViewById(R.id.buttonNotch);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchNotchService();
             }
-        });
+        });*/
     }
 
     private void launchNotchService() {
