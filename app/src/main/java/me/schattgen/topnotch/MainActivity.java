@@ -18,8 +18,10 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FancyButton button;
     private Switch serviceSwitch;
+    private ImageView notchImage;
+    private TextView tvSubheader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.BLACK);
-
-        startFadeInAnimation();
 
         button = findViewById(R.id.btnCheckPermission);
         button.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +59,49 @@ public class MainActivity extends AppCompatActivity {
         });
         button.setVisibility(hasPermission() ? View.GONE : View.VISIBLE);
 
+        tvSubheader = findViewById(R.id.tvSubheader);
+        if (hasPermission()) {
+            tvSubheader.setText("You have granted the right permissions to make TopNotch work on your device. Tap on the toggle below to activate the Pixel 3 XL notch.");
+        }
+
         serviceSwitch = findViewById(R.id.swActivateNotch);
         serviceSwitch.setChecked(isNotchServiceRunning(NotchService.class, this));
+        serviceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    launchNotchService();
+                }
+                else
+                {
+                    stopNotchService();
+                }
+            }
+        });
+
+        if (!isNotchServiceRunning(NotchService.class, this))
+        {
+            notchImage = findViewById(R.id.imageView);
+            startFadeInAnimation();
+        }
+    }
+
+    private void stopNotchService() {
+        Window window = getWindow();
+        window.setStatusBarColor(Color.BLACK);
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
+        Intent notchService = new Intent(this, NotchService.class);
+        stopService(notchService);
     }
 
     private void launchNotchService() {
+        notchImage.setVisibility(View.INVISIBLE);
+        Window window = getWindow();
+        window.setStatusBarColor(Color.parseColor("#f4f6f8"));
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
         Intent notchService = new Intent(this, NotchService.class);
         startService(notchService);
     }
@@ -108,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startFadeInAnimation() {
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_animation);
-        imageView.startAnimation(startAnimation);
+        notchImage.startAnimation(startAnimation);
     }
 }

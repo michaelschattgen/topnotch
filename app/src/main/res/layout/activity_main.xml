@@ -119,7 +119,7 @@
         app:layout_constraintStart_toStartOf="parent"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="#1e88e5"
+        fancy:fb_defaultColor="#ff5d55"
         fancy:fb_focusColor="#01579b"
         fancy:fb_iconPosition="left"
         fancy:fb_radius="5dp"
