@@ -49,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!hasPermission())
                 {
+                    setPermissionLayout(false);
                     getDrawOverlayPermission();
                 }
                 else
                 {
-                    serviceSwitch.setChecked(true);
+                    setPermissionLayout(true);
                     launchNotchService();
                 }
             }
@@ -65,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         tvHeader = findViewById(R.id.tvHeader);
         tvSubheader = findViewById(R.id.tvSubheader);
         if (hasPermission()) {
-            serviceSwitch.setVisibility(View.VISIBLE);
-            tvSubheader.setText("You have granted the right permissions to make TopNotch work on your device. Tap on the toggle below to activate the Pixel 3 XL notch.");
+            setPermissionLayout(true);
         }
 
         serviceSwitch.setChecked(isNotchServiceRunning(NotchService.class, this));
@@ -132,13 +132,26 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE) {
             if(hasPermission()){
-                serviceSwitch.setChecked(true);
+                setPermissionLayout(true);
                 launchNotchService();
             }
             else {
                 Toast.makeText(this, "Before you can activate the notch you need to grant permission", Toast.LENGTH_SHORT).show();
+                setPermissionLayout(false);
             }
         }
+    }
+
+    private void setPermissionLayout(boolean hasPermission)
+    {
+        if (hasPermission) {
+            serviceSwitch.setVisibility(View.VISIBLE);
+            tvSubheader.setText("You have granted the right permissions to make TopNotch work on your device. Tap on the toggle below to activate the Pixel 3 XL notch.");
+        } else {
+            serviceSwitch.setVisibility(View.INVISIBLE);
+        }
+
+        button.setVisibility(hasPermission ? View.GONE : View.VISIBLE);
     }
 
     private boolean isNotchServiceRunning(Class<?> serviceClass, Context context) {
