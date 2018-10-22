@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FancyButton button;
     private Switch serviceSwitch;
     private ImageView notchImage;
+    private ImageView githubImage;
     private TextView tvHeader;
     private TextView tvSubheader;
 
@@ -81,6 +82,18 @@ public class MainActivity extends AppCompatActivity {
                 {
                     stopNotchService();
                 }
+            }
+        });
+
+        githubImage = findViewById(R.id.ivGithub);
+        githubImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://github.com/michaelschattgen/topnotch";
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         });
 
@@ -171,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         tvHeader.startAnimation(fastAnimation);
         tvSubheader.startAnimation(fastAnimation);
         serviceSwitch.startAnimation(fastAnimation);
+        githubImage.startAnimation(fastAnimation);
 
         notchImage.startAnimation(animation);
         notchImage.setVisibility(View.VISIBLE);
