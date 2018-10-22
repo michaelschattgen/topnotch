@@ -123,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
         startService(notchService);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setPermissionLayout(hasPermission());
+    }
+
     public boolean hasPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(this);
@@ -162,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             tvSubheader.setText("You have granted the right permissions to make TopNotch work on your device. Tap on the toggle below to activate the Pixel 3 XL notch.");
         } else {
             serviceSwitch.setVisibility(View.INVISIBLE);
+            tvSubheader.setText("Before you can get the notch you need to grant the overlay permission by tapping on the 'Give overlay permission'-button below. TopNotch needs this permission to draw the notch on top of other apps.");
         }
 
         button.setVisibility(hasPermission ? View.GONE : View.VISIBLE);
