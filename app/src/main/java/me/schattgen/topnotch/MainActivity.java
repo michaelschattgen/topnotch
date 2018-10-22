@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FancyButton button;
     private Switch serviceSwitch;
     private ImageView notchImage;
+    private TextView tvHeader;
     private TextView tvSubheader;
 
     @Override
@@ -57,14 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        serviceSwitch = findViewById(R.id.swActivateNotch);
         button.setVisibility(hasPermission() ? View.GONE : View.VISIBLE);
 
+        tvHeader = findViewById(R.id.tvHeader);
         tvSubheader = findViewById(R.id.tvSubheader);
         if (hasPermission()) {
+            serviceSwitch.setVisibility(View.VISIBLE);
             tvSubheader.setText("You have granted the right permissions to make TopNotch work on your device. Tap on the toggle below to activate the Pixel 3 XL notch.");
         }
 
-        serviceSwitch = findViewById(R.id.swActivateNotch);
         serviceSwitch.setChecked(isNotchServiceRunning(NotchService.class, this));
         serviceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -80,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notchImage = findViewById(R.id.imageView);
         if (!isNotchServiceRunning(NotchService.class, this))
         {
-            notchImage = findViewById(R.id.imageView);
             startFadeInAnimation();
         }
     }
@@ -148,7 +152,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startFadeInAnimation() {
-        Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_animation);
-        notchImage.startAnimation(startAnimation);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_animation);
+        Animation fastAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_animation_fast);
+
+        tvHeader.startAnimation(fastAnimation);
+        tvSubheader.startAnimation(fastAnimation);
+        serviceSwitch.startAnimation(fastAnimation);
+
+        notchImage.startAnimation(animation);
+        notchImage.setVisibility(View.VISIBLE);
     }
 }
