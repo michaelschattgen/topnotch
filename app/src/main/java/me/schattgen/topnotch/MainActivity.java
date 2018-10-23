@@ -24,6 +24,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView githubImage;
     private TextView tvHeader;
     private TextView tvSubheader;
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
         {
             startFadeInAnimation();
         }
+
+        String admobKey = BuildConfig.AdmobKey;
+        MobileAds.initialize(this, admobKey);
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void stopNotchService() {
@@ -153,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             if(hasPermission()){
                 setPermissionLayout(true);
-                launchNotchService();
             }
             else {
                 Toast.makeText(this, "Before you can activate the notch you need to grant permission", Toast.LENGTH_SHORT).show();

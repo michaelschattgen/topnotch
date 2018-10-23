@@ -11,19 +11,30 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "AdmobKey", TopNotch_Debug_AdmobKey
+            resValue 'string', "admobKey", TopNotch_Debug_AdmobKey
+            resValue 'string', "admobUnit", TopNotch_Debug_AdmobUnit
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "AdmobKey", TopNotch_Release_AdmobKey
+            resValue 'string', "admobKey", TopNotch_Release_AdmobKey
+            resValue 'string', "admobUnit", TopNotch_Release_AdmobUnit
         }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.github.medyo:fancybuttons:1.8.4'
+    implementation 'com.google.android.gms:play-services-ads:17.0.0'
 }
