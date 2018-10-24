@@ -4,30 +4,21 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 public class DpiHelper {
-    private WindowManager windowManager = null;
+    private WindowManager windowManager;
+    private DisplayMetrics metrics;
 
     public DpiHelper(WindowManager receievedWindowManager)
     {
         windowManager = receievedWindowManager;
+        metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(metrics);
     }
 
-    public float getDefaultXPPI(){
-        DisplayMetrics metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        float xdpi = metrics.xdpi;
-        if(xdpi<=320){
-            return 300;
-        }
-        return xdpi;
+    public float getDisplayXdpi(){
+        return metrics.xdpi <= 320 ? 300 : metrics.xdpi;
     }
 
-    public float getDefaultYPPI(){
-        DisplayMetrics metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        float ydpi = metrics.ydpi;
-        if(ydpi <= 320){
-            return 320;
-        }
-        return ydpi;
+    public float getDisplayYdpi(){
+        return metrics.xdpi <= 320 ? 320 : metrics.xdpi;
     }
 }
