@@ -39,15 +39,12 @@ public class NotchService extends Service {
             overlayType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }
 
+        int width = (int)((widthParam) * dpiHelper.getDisplayXdpi());
+        int height = (int)((heightParam) * dpiHelper.getDisplayYdpi());
+        int layoutFlags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+
         notchView = View.inflate(getApplicationContext(), R.layout.notch, null);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                (int)(widthParam * dpiHelper.getDisplayXdpi()),
-                (int)(heightParam * dpiHelper.getDisplayYdpi()),
-                overlayType,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(width, height, overlayType, layoutFlags, PixelFormat.TRANSLUCENT);
 
         params.gravity =  Gravity.TOP | Gravity.CENTER;
         windowManager.addView(notchView, params);
